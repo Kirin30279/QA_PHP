@@ -10,7 +10,7 @@ $connect = new mysqli($servername,$username,$password,"$dbname");
     }   
 $oid =  $_GET['oid'];//訂單編號
 if(isset($_POST['send'])){//submit的判斷
-  $oid_Question = $_POST["content"];//客服人員的回應 textarea提交
+  $oid_Question = htmlspecialchars($_POST["content"]);//客服人員的回應 textarea提交
   $status = $_POST['CloseorNot'];//訂單回覆狀態，1代表完成回覆
   $user_id = strval(7777);//官方客服編號
   $uploadtime = time();//跑到這行的時間，等等拿來記圖片、記上傳時間
@@ -64,7 +64,6 @@ if(isset($_POST['send'])){//submit的判斷
       <div class="card-body">
       
       <?php
-
 
       $query = 
       "SELECT * FROM `customer_qa` WHERE `oid`=$oid 

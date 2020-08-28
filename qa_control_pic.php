@@ -1,6 +1,6 @@
 <?php
 $oid=$_POST["order_number"];//訂單編號
-$oid_Question=$_POST["Question"];//問題內容
+$oid_Question=htmlspecialchars(addslashes ($_POST["Question"]));//問題內容
 $user_id = 8888;//使用者id
 $type = $_POST['type'];//問題類型：價格問題、商品問題...等
 $fileTemp = $_FILES['PicFile']['name'];//圖片暫存
@@ -36,7 +36,6 @@ date_default_timezone_set("Asia/Taipei");//時區拉到台北來
 $date = date('Y-m-d H:i:s',$uploadtime);//上傳時間變成date的形式，隨著時區改變。
 //第一筆上傳，傳入問題庫↓
 
-$oid_Question=htmlspecialchars($_POST["Question"]);
 $IsCustomer = 1 ;
 $insertSQL_Customer_qa = "INSERT INTO customer_qa(oid,oid_Question,PicFile,user_id,time,IsCustomer)
 VALUES (?,?,?,?,?,?)";

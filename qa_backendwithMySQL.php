@@ -10,15 +10,16 @@ $connect = new mysqli($servername,$username,$password,"$dbname");
     }   
 $oid =  $_GET['oid'];//訂單編號
 if(isset($_POST['send'])){//submit的判斷
-  $oid_Question = htmlspecialchars(addslashes($_POST["content"]));//客服人員的回應 textarea提交
+  $oid_Question = addslashes($_POST["content"]);//客服人員的回應 textarea提交
   $status = $_POST['CloseorNot'];//訂單回覆狀態，1代表完成回覆
   $user_id = strval(7777);//官方客服編號
   $uploadtime = time();//跑到這行的時間，等等拿來記圖片、記上傳時間
   date_default_timezone_set("Asia/Taipei");//時區拉到台北來
   $date = date('Y-m-d H:i:s',$uploadtime);//上傳時間變成date的形式，隨著時區改變。 
+  $newpers = mysqli_real_escape_string($connect,$oid_Question);
   $insertSql = 
   "INSERT INTO customer_qa(oid,oid_Question,PicFile,user_id,time,IsCustomer)
-  VALUES ($oid,'$oid_Question','',$user_id,'$date',0)";
+  VALUES ($oid,'$newpers','',$user_id,'$date',0)";
   
   $insertSQL_QA_list = 
   "UPDATE qa_list SET renew_time='$date',status=$status WHERE oid = $oid";
@@ -92,7 +93,7 @@ if(isset($_POST['send'])){//submit的判斷
          $html .= '</div>';
          $html .= '<div style="width: 50rem">';
          $html .= '<p>';
-         $html .= stripslashes($array['oid_Question']);
+         $html .= htmlspecialchars(stripslashes($array['oid_Question']));
          $html .= '</p>';
 
          if(!empty($array['PicFile'])) {
@@ -120,7 +121,7 @@ if(isset($_POST['send'])){//submit的判斷
           $html .= '</div>';
           $html .= '<div class="d-flex justify-content-end" style="width: 50rem">';
           $html .= '<p>';
-          $html .= stripslashes($array['oid_Question']);
+          $html .= htmlspecialchars(stripslashes($array['oid_Question']));
           $html .= '</p>';
           $html .= '</div>';
           $html .= '</div>';

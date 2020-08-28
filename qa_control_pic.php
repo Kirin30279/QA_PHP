@@ -1,6 +1,6 @@
 <?php
 $oid=$_POST["order_number"];//訂單編號
-$oid_Question=htmlspecialchars(addslashes ($_POST["Question"]));//問題內容
+$oid_Question=addslashes($_POST["Question"]);//問題內容
 $user_id = 8888;//使用者id
 $type = $_POST['type'];//問題類型：價格問題、商品問題...等
 $fileTemp = $_FILES['PicFile']['name'];//圖片暫存
@@ -35,17 +35,17 @@ if ($connect->connect_error) {
 date_default_timezone_set("Asia/Taipei");//時區拉到台北來
 $date = date('Y-m-d H:i:s',$uploadtime);//上傳時間變成date的形式，隨著時區改變。
 //第一筆上傳，傳入問題庫↓
-
-$IsCustomer = 1 ;
-$insertSQL_Customer_qa = "INSERT INTO customer_qa(oid,oid_Question,PicFile,user_id,time,IsCustomer)
-VALUES (?,?,?,?,?,?)";
-$stmt=$connect->prepare($insertSQL_Customer_qa);
-$stmt->bind_param("issssi", $oid,$oid_Question,$fileData,$user_id,$date,$IsCustomer);
-$stmt->execute();
-$stmt->close();
-// $insertSQL_Customer_qa = 
-// "INSERT INTO customer_qa(oid,oid_Question,PicFile,user_id,time,IsCustomer)
-// VALUES ($oid,'$oid_Question','$fileData',$user_id,'$date',1)";
+$newpers = mysqli_real_escape_string($connect,$oid_Question);
+// $IsCustomer = 1 ;
+// $insertSQL_Customer_qa = "INSERT INTO customer_qa(oid,oid_Question,PicFile,user_id,time,IsCustomer)
+// VALUES (?,?,?,?,?,?)";
+// $stmt=$connect->prepare($insertSQL_Customer_qa);
+// $stmt->bind_param("issisi", $oid,$newpers,$fileData,$user_id,$date,$IsCustomer);
+// $stmt->execute();
+// $stmt->close();
+$insertSQL_Customer_qa = 
+"INSERT INTO customer_qa(oid,oid_Question,PicFile,user_id,time,IsCustomer)
+VALUES ($oid,'$newpers','$fileData',$user_id,'$date',1)";
 
 //第二筆上傳，方便後台列表顯示↓
 $insertSQL_QA_list = 
@@ -62,11 +62,11 @@ renew_time='$date', status = 0,type = $type";
 //沒該訂單就寫入新資料，有就更新
 //status=0，這樣後台才可以知道該編號未處理。
 
-  // if(mysqli_query($connect, $insertSQL_Customer_qa)){
-  //   echo "資料上傳成功".'<br/>';
-  // } else{
-  //   echo "ERROR: Could not able to execute $insertSQL_Customer_qa. " . mysqli_error($connect).'<br/>';
-  //   }
+  if(mysqli_query($connect, $insertSQL_Customer_qa)){
+    echo "資料上傳成功".'<br/>';
+  } else{
+    echo "ERROR: Could not able to execute $insertSQL_Customer_qa. " . mysqli_error($connect).'<br/>';
+    }
   if(mysqli_query($connect, $insertSQL_QA_list)){
     echo "資料上傳成功".'<br/>';
   } else{
@@ -77,7 +77,8 @@ echo "============↓↓↓↓↓↓下方為上傳完成輸出區↓↓↓↓�
 // 訂單編號
 echo "訂單編號:$oid".'<br/>';
 // 問題內容
-echo "問題內容:$oid_Question".'<br/>';
+$newpers=htmlspecialchars($newpers);
+echo "問題內容:$newpers".'<br/>';
 // 圖片
 $path = array();//上傳完成後，顯示圖片用的路徑
 if(!empty($fileData)) {

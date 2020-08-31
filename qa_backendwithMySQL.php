@@ -1,13 +1,6 @@
 <?php
 //這區程式碼拿來存專員回應進DB
-$servername='localhost';//主機名稱
-$username='root';//使用者名稱
-$password='';//使用者PW
-$dbname = "day5_qa";//DB名稱
-$connect = new mysqli($servername,$username,$password,"$dbname");
-  if ($connect->connect_error) {
-    die("連線失敗: " . $connect->connect_error);
-    }   
+require "config.php";
 $oid =  $_GET['oid'];//訂單編號
 if(isset($_POST['send'])){//submit的判斷
   $oid_Question = addslashes($_POST["content"]);//客服人員的回應 textarea提交

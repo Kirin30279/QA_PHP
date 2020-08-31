@@ -23,14 +23,7 @@
       <tbody>
         
         <?php
-        $servername='localhost';//主機名稱
-        $username='root';//使用者名稱
-        $password='';//使用者PW
-        $dbname = "day5_qa";//存取的DB名稱
-        $connect = new mysqli($servername,$username,$password,"$dbname");
-        if ($connect->connect_error) {
-           die("連線失敗: " . $connect->connect_error);
-        }
+        require "config.php";
         $query = 
         "SELECT * FROM `qa_list`  
         ORDER BY `status`ASC,`renew_time` DESC";

@@ -23,14 +23,7 @@ while($i < count($fileTemp)) {
 }
 $fileData=join(",",$fileData);//上傳路徑用逗號隔開
 
-$servername='localhost';//主機名稱
-$username='root';//使用者名稱
-$password='';//使用者PW
-$dbname = "day5_QA";//DB名稱
-$connect = mysqli_connect($servername,$username,$password,"$dbname");
-if ($connect->connect_error) {
-   die("連線失敗: " . $connect->connect_error);
-}
+require "config.php";
 
 date_default_timezone_set("Asia/Taipei");//時區拉到台北來
 $date = date('Y-m-d H:i:s',$uploadtime);//上傳時間變成date的形式，隨著時區改變。

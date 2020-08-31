@@ -93,7 +93,7 @@ if(isset($_POST['send'])){//submit的判斷
          $html .= '</div>';
          $html .= '<div style="width: 50rem">';
          $html .= '<p>';
-         $html .= htmlspecialchars(stripslashes($array['oid_Question']));
+         $html .= (stripslashes($array['oid_Question']));
          $html .= '</p>';
 
          if(!empty($array['PicFile'])) {
@@ -121,7 +121,7 @@ if(isset($_POST['send'])){//submit的判斷
           $html .= '</div>';
           $html .= '<div class="d-flex justify-content-end" style="width: 50rem">';
           $html .= '<p>';
-          $html .= htmlspecialchars(stripslashes($array['oid_Question']));
+          $html .= (stripslashes($array['oid_Question']));
           $html .= '</p>';
           $html .= '</div>';
           $html .= '</div>';

@@ -1,6 +1,6 @@
 <?php
 $oid=$_POST["order_number"];//訂單編號
-$oid_Question=addslashes($_POST["Question"]);//問題內容
+$oid_Question=htmlspecialchars(addslashes($_POST["Question"]));//問題內容
 $user_id = 8888;//使用者id
 $type = $_POST['type'];//問題類型：價格問題、商品問題...等
 $fileTemp = $_FILES['PicFile']['name'];//圖片暫存
@@ -77,7 +77,6 @@ echo "============↓↓↓↓↓↓下方為上傳完成輸出區↓↓↓↓�
 // 訂單編號
 echo "訂單編號:$oid".'<br/>';
 // 問題內容
-$newpers=htmlspecialchars($newpers);
 echo "問題內容:$newpers".'<br/>';
 // 圖片
 $path = array();//上傳完成後，顯示圖片用的路徑
